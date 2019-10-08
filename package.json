@@ -1,0 +1,36 @@
+{
+  "name": "node-typescript-template",
+  "version": "1.0.0",
+  "description": "Base template for nodejs application",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "nodemon --watch src/**/*.ts --exec ts-node src/app.ts",
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts test/**/*.ts",
+    "test": "mocha -r ts-node/register test/**/*.ts"
+  },
+  "author": "Maxim Savin <soulman.is.good@gmail.com>",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chai": "^4.2.3",
+    "@types/eslint": "^6.1.2",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.11",
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
+    "chai": "^4.2.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.0.8",
+    "lint-staged": "^9.4.1",
+    "mocha": "^6.2.1",
+    "nodemon": "^1.19.3",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
+  }
+}

@@ -1,0 +1,19 @@
+image: node:10
+
+stages:
+  - build
+
+cache:
+  paths:
+    - node_modules/
+
+run_build:
+  stage: build
+  script:
+    - npm install
+    - npm test
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+      - node_modules/

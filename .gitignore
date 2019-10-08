@@ -1,0 +1,11 @@
+.env
+node_modules
+.idea
+.vscode
+*.iml
+modules.xml
+*.ipr
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+Thumbs.db
