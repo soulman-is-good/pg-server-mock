@@ -25,3 +25,19 @@ export const readStartupData = (data: Buffer) => {
     parameters,
   };
 };
+
+export const createBuffer16 = (num: number) => {
+  const buf = Buffer.alloc(2);
+
+  buf.writeInt16BE(num, 0);
+
+  return buf;
+};
+
+export const createBuffer32 = (num: number) => {
+  const buf = Buffer.alloc(4);
+
+  buf.writeInt32BE(num, 0);
+
+  return buf;
+};

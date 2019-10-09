@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import pg from 'pg';
 import {
   PgServer,
-  Command,
+  Commands,
   ServerEvent,
   PgSession,
   FrontendEvent,
@@ -48,19 +48,32 @@ describe('Application test', () => {
       cli.connect();
       const session = await waitFor<PgSession>(pgsrv, ServerEvent.Session);
 
-      await session.send(Command.AuthenticationOk());
-      await session.send(Command.ReadyForQuery());
+      await session.send(Commands.AuthenticationOk());
+      await session.send(Commands.ReadyForQuery());
+
+      cli.end();
+    });
+
+    it('should run SELECT query properly', async () => {
+      if (!pgsrv) throw new Error('Server not initialized');
+      const cli = new pg.Client(`postgres://user:pass@127.0.0.1:${port}/db`);
+
+      cli.connect();
+      const session = await waitFor<PgSession>(pgsrv, ServerEvent.Session);
+
+      await session.send(Commands.AuthenticationOk());
+      await session.send(Commands.ReadyForQuery());
       const query =
         "SELECT COUNT(*) FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_type = 1";
 
       cli.query(query);
-      // wait for query
+      // wait for query on server
       const parsed = (await waitFor(session, FrontendEvent.Query)) as Query;
 
-      console.log(parsed.ast.ast);
+      console.log(parsed.tableColumnAst.ast);
       assert.strictEqual(query, parsed.raw);
-      await session.send(Command.NoData());
-      await session.send(Command.ReadyForQuery());
+      await session.send(Commands.EmptyQueryResponse());
+      await session.send(Commands.ReadyForQuery());
 
       cli.end();
       const length = await waitFor(session, FrontendEvent.Terminate);

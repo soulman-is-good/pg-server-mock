@@ -18,6 +18,7 @@ import {
   StartupMessage,
 } from './types';
 import { readStartupData } from './utils';
+import { Commands } from './commands';
 
 export class PgServer extends EventEmitter {
   private _server: net.Server;
@@ -46,7 +47,6 @@ export class PgServer extends EventEmitter {
   }
 
   _onConnection(client = new net.Socket()) {
-    console.log('CONNECTION');
     client.setTimeout(1000);
     client.on('data', data => {
       this._onData(client, data);
@@ -57,7 +57,6 @@ export class PgServer extends EventEmitter {
   }
 
   _onData(client: net.Socket, data: Buffer) {
-    console.log('DATA', data);
     this.emit('data', client, data);
     if (!this._sessions.has(client)) {
       const startData = readStartupData(data);
@@ -78,11 +77,11 @@ export class PgServer extends EventEmitter {
   }
 
   _onError(err: Error) {
-    console.error(err);
+    this.emit(ServerEvent.Error, err);
   }
 
   _onClose() {
-    console.log('closed');
+    this.emit(ServerEvent.Close);
   }
 }
 
@@ -90,6 +89,7 @@ export {
   ServerEvent,
   FrontendEvent,
   Command,
+  Commands,
   Query,
   StartupMessage,
   PgSession,

@@ -1,7 +1,14 @@
 import { EventEmitter } from 'events';
 import { Socket } from 'net';
 import { Parser } from 'node-sql-parser';
-import { StartupMessage, FrontendEvent, Query } from './types';
+import {
+  StartupMessage,
+  FrontendEvent,
+  Query,
+  Command,
+  ReplyCommand,
+} from './types';
+import { Commands } from './commands';
 
 export class PgSession extends EventEmitter {
   private _client: Socket;
@@ -10,11 +17,14 @@ export class PgSession extends EventEmitter {
 
   database?: string;
 
+  _lastCommand?: FrontendEvent;
+
   constructor(client: Socket, params: StartupMessage) {
     super();
     this.user = params.user;
     this.database = params.database;
     this._client = client;
+    this._lastCommand = 'StartupMessage';
     this.emit(FrontendEvent.StartupMessage, params.parameters);
   }
 
@@ -31,7 +41,10 @@ export class PgSession extends EventEmitter {
       const parser = new Parser();
       const ast = parser.parse(query);
 
-      this.emit(FrontendEvent.Query, { raw: query, ast } as Query);
+      this.emit(FrontendEvent.Query, {
+        raw: query,
+        tableColumnAst: ast,
+      } as Query);
       return;
     }
     console.log(data, data.toString());
