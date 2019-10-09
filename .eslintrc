@@ -28,6 +28,10 @@
   "rules": {
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
+    "no-underscore-dangle": "off",
+    "no-use-before-define": ["error", { "functions": true, "classes": true }],
+    "class-methods-use-this": "off",
+    "@typescript-eslint/no-use-before-define": ["error", { "functions": true, "classes": true }],
     "no-await-in-loop": "off",
     "prettier/prettier": ["warn"]
   }

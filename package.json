@@ -4,19 +4,24 @@
   "description": "Base template for nodejs application",
   "main": "dist/app.js",
   "scripts": {
-    "start": "nodemon --watch src/**/*.ts --exec ts-node src/app.ts",
+    "start": "nodemon --watch src/**/*.ts --exec ts-node src/server.ts",
     "build": "tsc",
     "lint": "eslint src/**/*.ts test/**/*.ts",
     "test": "mocha -r ts-node/register test/**/*.ts"
   },
   "author": "Maxim Savin <soulman.is.good@gmail.com>",
-  "license": "ISC",
-  "dependencies": {},
+  "license": "MIT License",
+  "dependencies": {
+    "node-sql-parser": "^1.6.5",
+    "pg": "^7.12.1"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.3",
     "@types/eslint": "^6.1.2",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.11",
+    "@types/node-sql-parser": "^1.0.0",
+    "@types/pg": "^7.11.2",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "chai": "^4.2.0",
